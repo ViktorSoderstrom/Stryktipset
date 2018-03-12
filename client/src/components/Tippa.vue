@@ -7,7 +7,7 @@
           <div class="game-row teal lighten-1">
             <div class="match-wrapper">
               <span class="number-button">{{row.id + 1}}</span>
-              {{row.game}} - {{row.league}}
+              {{row.game}}
             </div>
           </div>
         </li>
@@ -21,8 +21,7 @@ import StryktipsetService from '@/services/StryktipsetService'
 export default {
   data () {
     return {
-      rows: [],
-      myRows: []
+      rows: []
     }
   },
   methods: {
