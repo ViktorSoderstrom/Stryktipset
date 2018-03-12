@@ -9,5 +9,8 @@ module.exports = {
       host: process.env.HOST || 'localhost',
       storage: './stryktipset.sqlite'
     }
+  },
+  stryktipset: {
+    token: process.env.STR_TOKEN || '4d37faeb-a1b7-4a82-adb9-0b7c948dada5'
   }
 }
