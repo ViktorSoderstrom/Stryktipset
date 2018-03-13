@@ -10,4 +10,6 @@ module.exports = (app) => {
     AuthenticationController.register)
   app.post('/getTips',
     StryktipsetController.getTips)
+  app.post('/tippa',
+    StryktipsetController.tippa)
 }

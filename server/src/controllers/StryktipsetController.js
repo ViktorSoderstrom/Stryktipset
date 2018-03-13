@@ -1,12 +1,33 @@
 const request = require('request')
-
+const config = require('../config/config')
 module.exports = {
   async getTips (req, res) {
-    request.get('https://api.www.svenskaspel.se/external/draw/stryktipset/draws?accesskey=4d37faeb-a1b7-4a82-adb9-0b7c948dada5',
+    await request.get(config.stryktipset.url + config.stryktipset.token,
       function (error, response, body) {
         if (!error && response.statusCode === 200) {
           res.send(body)
         }
       })
+  },
+  async tippa (req, res) {
+    var options = {
+      uri: 'https://api.www.svenskaspel.se/external/wager/ownwager/stryktipset?accesskey=4d37faeb-a1b7-4a82-adb9-0b7c948dada5',
+      method: 'POST',
+      json: {
+        drawNumber: 0,
+        system: 'single',
+        items: req.body,
+        client: 'Virres strykis',
+        retailer: 'Virre'
+      }
+    }
+    console.log(options)
+    await request(options, function (error, response, body) {
+      if (!error && response.statusCode === 200) {
+        res.send(body)
+      } else {
+        res.send(error)
+      }
+    })
   }
 }
