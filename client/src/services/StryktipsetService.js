@@ -6,5 +6,8 @@ export default {
   },
   tippa (rows) {
     return Api().post('tippa', rows)
+  },
+  saveBong (obj) {
+    return Api().post('saveBong', obj)
   }
 }

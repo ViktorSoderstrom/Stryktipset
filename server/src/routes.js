@@ -12,4 +12,6 @@ module.exports = (app) => {
     StryktipsetController.getTips)
   app.post('/tippa',
     StryktipsetController.tippa)
+  app.post('/saveBong',
+    StryktipsetController.saveBong)
 }

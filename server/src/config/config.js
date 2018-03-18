@@ -11,7 +11,7 @@ module.exports = {
     }
   },
   stryktipset: {
-    url: process.env.ST_URL || 'https://api.www.svenskaspel.se/external/draw/stryktipset/draws?accesskey=',
+    url: process.env.ST_URL || 'https://api.www.svenskaspel.se/external/draw/stryktipset/draws/?accesskey=',
     token: process.env.ST_TOKEN || '4d37faeb-a1b7-4a82-adb9-0b7c948dada5'
   }
 }

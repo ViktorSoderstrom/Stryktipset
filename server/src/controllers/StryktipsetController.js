@@ -1,5 +1,6 @@
 const request = require('request')
 const config = require('../config/config')
+const {Tips} = require('../models')
 module.exports = {
   async getTips (req, res) {
     await request.get(config.stryktipset.url + config.stryktipset.token,
@@ -29,5 +30,15 @@ module.exports = {
         res.send(error)
       }
     })
+  },
+  async saveBong (req, res) {
+    try {
+      var tips = await Tips.create(req.body)
+      res.send(tips.toJSON())
+    } catch (err) {
+      res.status(400).send({
+        error: 'Något gick fel vid skrivningen till databasen'
+      })
+    }
   }
 }
