@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Register from '@/components/Register'
 import Tippa from '@/components/Tippa'
+import Live from '@/components/Live'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/tippa',
       name: 'tippa',
       component: Tippa
+    },
+    {
+      path: '/live',
+      name: 'live',
+      component: Live
     }
   ]
 })

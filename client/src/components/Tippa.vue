@@ -1,6 +1,5 @@
 <template>
   <div class="tippa">
-    {{test}}
     <div class="header">
       <div class="header-text">
         Retton tätt
@@ -16,22 +15,20 @@
             <div class="game-info">
               <span class="match-teams">{{row.game}}</span>
               <p class="match-time">{{row.start}}</p>
+              <p v-if="row.eventTypeDescription.length > 0" class="match-info">{{row.eventTypeDescription}}</p>
             </div>
             <div class="signs-wrapper">
               <div class="sign-wrapper">
                 <button class="sign" v-bind:class="{active: row.ett}" @click="row.ett = !row.ett">1</button>
-                <p class="odds" v-if="row.odds">-</p>
-                <p class="odds" v-else>{{row.odds.home}}</p>
+                <p class="odds">{{row.odds.home}}</p>
               </div>
               <div class="sign-wrapper">
                 <button class="sign" v-bind:class="{active: row.kryss}" @click="row.kryss = !row.kryss">X</button>
-                <p class="odds" v-if="row.odds">-</p>
-                <p class="odds" v-else>{{row.odds.draw}}</p>
+                <p class="odds">{{row.odds.draw}}</p>
               </div>
               <div class="sign-wrapper">
                 <button class="sign" v-bind:class="{active: row.tva}" @click="row.tva = !row.tva">2</button>
-                <p class="odds" v-if="row.odds">-</p>
-                <p class="odds" v-else>{{row.odds.away}}</p>
+                <p class="odds">{{row.odds.away}}</p>
               </div>
             </div>
           </div>
@@ -39,20 +36,14 @@
       </ul>
       <div class="info">
         <div class="price">
-          pris: {{price(draw)}}
+          Pris: {{price(draw)}}
         </div>
+        <div class="price" @click="clearAll(draw)">Rensa tecken</div>
         <div>
           <button class="tippish" v-if="mayBet(draw)" @click="tippa(draw)">Tippa!</button>
         </div>
       </div>
-      <div>
-        <ul>
-          <li v-for="(row, iterator) in signsFromRows(draw)" v-bind:key="(row + 100) + iterator">{{row}}</li>
-        </ul>
-        </div>
-        <div>{{tipUri}}</div>
-        <div>{{toSend}}</div>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -80,9 +71,11 @@ export default {
       this.draws = resp.data.draws.map((draw, index) => {
         return {
           events: draw.events.map(function (element, index) {
+            console.log(element.odds)
             return {id: index,
               game: element.description,
-              odds: element.odds || '-',
+              odds: element.odds || {home: '-', draw: '-', away: '-'},
+              eventTypeDescription: element.eventTypeDescription,
               start: dateFormat(new Date(element.sportEventStart), 'd/m HH:MM'),
               distribution: element.distribution,
               newspaper: element.newspaperAdvice,
@@ -113,7 +106,7 @@ export default {
     async saveBong (draw) {
       var obj = {
         user: 'Virre',
-        drawNumber: '4238',
+        drawNumber: '4537',
         bong: this.signsFromRows(draw)
       }
       var resp = await StryktipsetService.saveBong(obj)
@@ -153,6 +146,13 @@ export default {
         if (row.length === 0) fullRow = false
       })
       return fullRow
+    },
+    clearAll (draw) {
+      draw.events.forEach(function (event) {
+        event.ett = false
+        event.kryss = false
+        event.tva = false
+      })
     }
   },
   created: function () {
@@ -317,6 +317,10 @@ export default {
     align-items: center;
     z-index: 99;
     flex-wrap: wrap;
+  }
+  .match-info{
+    color: red;
+    font-weight: 600;
   }
   .signs-wrapper{
     width: 40%;

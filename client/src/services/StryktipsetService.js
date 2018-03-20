@@ -9,5 +9,11 @@ export default {
   },
   saveBong (obj) {
     return Api().post('saveBong', obj)
+  },
+  getResults () {
+    return Api().post('getResults')
+  },
+  getBongFromDrawId (drawId) {
+    return Api().post('getBongFromDrawId', drawId)
   }
 }
