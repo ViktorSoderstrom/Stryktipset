@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h1>Registrera</h1>
+    <h1>Logga in</h1>
     <input v-model="email" type="email" name="email" placeholder="email" />
     <br>
     <input v-model="password" type="password" name="password" placeholder="password" />
     <br>
-    <button @click="register">Vi köör!</button>
+    <button @click="login">Vi köör!</button>
     <div v-html="error" />
+    <h1 v-if="$store.state.isUserLoggedIn">Inloggad som {{$store.state.user.email}}</h1>
   </div>
 </template>
 
@@ -21,14 +22,15 @@ export default {
     }
   },
   methods: {
-    async register () {
+    async login () {
       try {
-        const response = await AuthenticationService.register({
+        const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
         this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        this.error = null
       } catch (error) {
         this.error = error.response.data.error
       }

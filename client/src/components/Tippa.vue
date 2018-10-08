@@ -63,15 +63,11 @@ export default {
   methods: {
     async getTips () {
       var resp = await StryktipsetService.getTips()
-      this.test = 'tjabba'
-      /* if soecified draw
-      let tempDraws = []
-      tempDraws.push(resp.data.draw)
-      end */
       this.draws = resp.data.draws.map((draw, index) => {
+        console.log(draw.drawNumber)
         return {
+          drawNumber: draw.drawNumber,
           events: draw.events.map(function (element, index) {
-            console.log(element.odds)
             return {id: index,
               game: element.description,
               odds: element.odds || {home: '-', draw: '-', away: '-'},
@@ -106,7 +102,7 @@ export default {
     async saveBong (draw) {
       var obj = {
         user: 'Virre',
-        drawNumber: '4537',
+        drawNumber: draw.drawNumber,
         bong: this.signsFromRows(draw)
       }
       var resp = await StryktipsetService.saveBong(obj)
