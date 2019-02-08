@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -8,7 +10,8 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
-    isUserLoggedIn: false
+    isUserLoggedIn: false,
+    draws: []
   },
   mutations: {
     setToken (state, token) {
@@ -21,9 +24,27 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
+    },
+    setDraws (state, payload) {
+      state.draws = payload
     }
   },
   actions: {
+    setDraws ({commit}, payload) {
+      var lol = payload.map((draw) => ({
+        ...draw,
+        events: draw.events.map(event => ({
+          ...event,
+          odds: {
+            away: event.odds ? {value:event.odds.away, picked: false }: '',
+            draw: event.odds ? {value:event.odds.draw, picked: false } : '',
+            home: event.odds ? {value:event.odds.home, picked: false } : '',
+            picked: false
+          }
+        }))
+      }))
+      commit('setDraws', lol)
+    },
     setToken ({commit}, token) {
       commit('setToken', token)
     },

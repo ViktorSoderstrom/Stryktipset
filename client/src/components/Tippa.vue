@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div class="tippa">
     <div class="header">
@@ -8,32 +9,7 @@
       </div>
     </div>
     <div v-for="draw in draws" class="bong-wrapper" :key="draw.id">
-      <ul class="match-list">
-        <li class="match-item" v-for="row in draw.events" :key="row.id">
-          <span class="match-number">{{row.id + 1}}</span>
-          <div class="match-wrapper" style="width: 100%">
-            <div class="game-info">
-              <span class="match-teams">{{row.game}}</span>
-              <p class="match-time">{{row.start}}</p>
-              <p v-if="row.eventTypeDescription.length > 0" class="match-info">{{row.eventTypeDescription}}</p>
-            </div>
-            <div class="signs-wrapper">
-              <div class="sign-wrapper">
-                <button class="sign" v-bind:class="{active: row.ett}" @click="row.ett = !row.ett">1</button>
-                <p class="odds">{{row.odds.home}}</p>
-              </div>
-              <div class="sign-wrapper">
-                <button class="sign" v-bind:class="{active: row.kryss}" @click="row.kryss = !row.kryss">X</button>
-                <p class="odds">{{row.odds.draw}}</p>
-              </div>
-              <div class="sign-wrapper">
-                <button class="sign" v-bind:class="{active: row.tva}" @click="row.tva = !row.tva">2</button>
-                <p class="odds">{{row.odds.away}}</p>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <Draw :draw="draw"/>
       <div class="info">
         <div class="price">
           Pris: {{price(draw)}}
@@ -48,7 +24,9 @@
 </template>
 
 <script>
+/* eslint-disable */
 import StryktipsetService from '@/services/StryktipsetService'
+import Draw from '@/components/Draw'
 const Combinatorics = require('js-combinatorics')
 const dateFormat = require('dateformat')
 export default {
@@ -60,30 +38,14 @@ export default {
       test: 'hej'
     }
   },
+  components: {
+    Draw: Draw
+  },
   methods: {
     async getTips () {
       var resp = await StryktipsetService.getTips()
-      this.draws = resp.data.draws.map((draw, index) => {
-        console.log(draw.drawNumber)
-        return {
-          drawNumber: draw.drawNumber,
-          events: draw.events.map(function (element, index) {
-            return {id: index,
-              game: element.description,
-              odds: element.odds || {home: '-', draw: '-', away: '-'},
-              eventTypeDescription: element.eventTypeDescription,
-              start: dateFormat(new Date(element.sportEventStart), 'd/m HH:MM'),
-              distribution: element.distribution,
-              newspaper: element.newspaperAdvice,
-              league: element.league.name,
-              ett: false,
-              kryss: false,
-              tva: false
-            }
-          }),
-          id: 'draw-' + index
-        }
-      })
+      this.draws = resp.data.draws
+      this.$store.dispatch('setDraws', resp.data.draws);
     },
     async tippa (draw) {
       this.toSendLists(draw)
