@@ -14,7 +14,7 @@ export default {
   
   props: {
       odds: String,
-      where: String
+      where: String,
   },
   data () {
       return {
@@ -25,9 +25,10 @@ export default {
       classes() {
           return {
               odds: true,
-              odds_picked: this.picked
+              odds_picked: this.$store.state
           }
       }
+
   }
   
 }

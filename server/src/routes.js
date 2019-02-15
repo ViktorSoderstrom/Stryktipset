@@ -20,4 +20,8 @@ module.exports = (app) => {
     StryktipsetController.getResults)
   app.post('/getBongFromDrawId',
     StryktipsetController.getBongFromDrawId)
+  app.post('/getDraw',
+    StryktipsetController.getDraw)
+  app.post('/getResult',
+    StryktipsetController.getResult)
 }

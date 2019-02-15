@@ -21,11 +21,11 @@ export default {
       Odds: Odds
   },
   props: {
-      event: ""
+      event: Object
   },
   methods: {
       toggleOdds(where) {
-          this.$store.dispatch('pickSign', {eventId: event.sportEventId, where: where})
+          this.$store.dispatch('pickSign', {eventId: this.event.sportEventId, where: where})
       }
   }
 }

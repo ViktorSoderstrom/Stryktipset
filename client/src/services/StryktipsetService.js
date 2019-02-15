@@ -15,5 +15,11 @@ export default {
   },
   getBongFromDrawId (drawId) {
     return Api().post('getBongFromDrawId', drawId)
+  },
+  getDraw (id) {
+    return Api().post('getDraw', id)
+  },
+  getResult (id) {
+    return Api().post('getResult', id)
   }
 }

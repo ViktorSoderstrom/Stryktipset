@@ -27,6 +27,9 @@ export default new Vuex.Store({
     },
     setDraws (state, payload) {
       state.draws = payload
+    },
+    pickSign (state, obj) {
+      state = state
     }
   },
   actions: {
@@ -50,6 +53,19 @@ export default new Vuex.Store({
     },
     setUser ({commit}, user) {
       commit('setUser', user)
+    },
+    pickSign ({commit}, obj) {
+      var eventId = obj.eventId;
+      var where = obj.where;
+      var event = this.state.draws.find(function(d){
+        return d.events.find(function(e){
+          console.log({id:e.sportEventId});
+          return e.sportEventId === eventId;
+        })
+      })
+      console.log(eventId);
+      console.log(event);
+      commit('pickSign', obj)
     }
   }
 })

@@ -5,6 +5,7 @@ import Register from '@/components/Register'
 import Tippa from '@/components/Tippa'
 import Live from '@/components/Live'
 import Login from '@/components/Login'
+import History from '@/components/History'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/live',
       name: 'live',
       component: Live
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: History
     }
   ]
 })

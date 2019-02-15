@@ -1,14 +1,34 @@
+/* eslint-disable */
+
 const request = require('request')
 const config = require('../config/config')
 const {Tips} = require('../models')
 module.exports = {
   async getTips (req, res) {
-    await request.get(config.stryktipset.drawUrl + config.stryktipset.token,
+    await request.get(config.stryktipset.drawsUrl + config.stryktipset.token,
       function (error, response, body) {
         if (!error && response.statusCode === 200) {
           res.send(body)
         }
       })
+  },
+  async getResult (req, res) {
+    await request.get(config.stryktipset.drawsUrl + req.body.drawNumber + '/result' + config.stryktipset.token, function(error, response, body) {
+      if(!error && response.statusCode === 200) {
+        res.send(body)
+      } else {
+        res.send(error)
+      }
+    })
+  },
+  async getDraw (req, res) {
+    await request.get(config.stryktipset.drawsUrl + req.body.drawNumber + config.stryktipset.token, function(error, response, body) {
+      if(!error && response.statusCode === 200) {
+        res.send(body)
+      } else {
+        res.send(error)
+      }
+    })
   },
   async tippa (req, res) {
     var options = {
